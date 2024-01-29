@@ -24,6 +24,10 @@ protocol SwipeControllerDelegate: class {
     
     func swipeController(_ controller: SwipeController, visibleRectFor scrollView: UIScrollView) -> CGRect?
     
+    func swipeController(_ controller: SwipeController,
+                         shouldRecognizeSimultaneouslyWith gestureRecognizer: UIGestureRecognizer,
+                         otherGestureRecognizer: UIGestureRecognizer) -> Bool
+
 }
 
 class SwipeController: NSObject {
@@ -291,7 +295,7 @@ class SwipeController: NSObject {
             actionsContainerView.center = CGPoint(x: targetOffset, y: actionsContainerView.center.y)
             swipeable.actionsView?.visibleWidth = abs(actionsContainerView.frame.minX)
             swipeable.layoutIfNeeded()
-        }        
+        }
     }
     
     func stopAnimatorIfNeeded() {
@@ -366,6 +370,12 @@ extension SwipeController: UIGestureRecognizerDelegate {
         }
         
         return true
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        delegate?.swipeController(self,
+                                  shouldRecognizeSimultaneouslyWith: gestureRecognizer,
+                                  otherGestureRecognizer: otherGestureRecognizer) ?? false
     }
 }
 

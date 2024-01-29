@@ -180,6 +180,10 @@ open class SwipeTableViewCell: UITableViewCell {
 }
 
 extension SwipeTableViewCell: SwipeControllerDelegate {
+    func swipeController(_ controller: SwipeController, shouldRecognizeSimultaneouslyWith gestureRecognizer: UIGestureRecognizer, otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        false
+    }
+    
     func swipeController(_ controller: SwipeController, canBeginEditingSwipeableFor orientation: SwipeActionsOrientation) -> Bool {
         return self.isEditing == false
     }
